@@ -1,0 +1,57 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+
+namespace Selenium_Demo1
+{
+    [TestFixture]
+    public class TestClass
+    {
+        IWebDriver driver;
+        [SetUp]
+        public void SetUp()
+        {
+            driver = new ChromeDriver();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.Navigate().GoToUrl("http://localhost:8080/application/");
+            driver.Manage().Window.Maximize();
+
+        }
+        [Test]
+        public void TestMethod()
+        {
+            driver.FindElement(By.Id("mom")).Click();
+            IWebElement tableElement = driver.FindElement(By.Id("listMom"));
+            IList<IWebElement> collection = tableElement.FindElements(By.TagName("tr"));
+            foreach(IWebElement row in collection)
+            {
+                IList<IWebElement> columns = row.FindElements(By.TagName("td"));
+           
+                if(columns.Count>=3 && columns[1].Text.Contains("6:30"))
+                {
+                    Console.WriteLine(columns[0].Text);
+                }
+       
+            }
+            driver.FindElement(By.Id("eventsLink")).Click();
+            driver.FindElement(By.Id("adv")).Click();
+            driver.FindElement(By.Id("book5")).Click();
+            driver.SwitchTo().Alert().Accept();
+            IReadOnlyCollection<string> all_tabs = driver.WindowHandles;
+            string currentWindow = driver.CurrentWindowHandle;
+            foreach(string item in all_tabs)
+            {
+               if(item != currentWindow)
+                {
+                    driver.SwitchTo().Window(item);
+                    break;
+                }
+            }
+
+        }
+    }
+}
