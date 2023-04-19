@@ -51,7 +51,36 @@ namespace Selenium_Demo1
                     break;
                 }
             }
+            driver.FindElement(By.Id("phone")).SendKeys("9876543210");
+            driver.FindElement(By.Id("email")).SendKeys("jk97@gmail.com");
+            driver.FindElement(By.Id("ticketNo")).SendKeys("2");
+            driver.FindElement(By.Id("checkValid")).Click();
+            driver.FindElement(By.Id("calculateFare")).Click();
 
+            IAlert alert = driver.SwitchTo().Alert();
+            string msg = alert.Text;
+
+            ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
+            Screenshot screenshot = screenshotDriver.GetScreenshot();
+            string filePath = "C:\\Users";
+            screenshot.SaveAsFile(filePath, ScreenshotImageFormat.Png);
+            alert.Accept();
+            driver.SwitchTo().Window(currentWindow);
+            driver.FindElement(By.Id("offersLink")).Click();
+            IWebElement dropDownElement = driver.FindElement(By.Id("offersDropdown"));
+
+            SelectElement dropDown = new SelectElement(dropDownElement);
+            dropDown.SelectByText("Mobile App offers");
+            IWebElement msgElement = driver.FindElement(By.XPath("/html/body/div[3]/p"));
+            Assert.IsTrue(msgElement.Displayed, "The message element is not displayed");
+
+
+        }
+         [TearDown ]
+        public void TearDown()
+        {
+            driver.Quit();
+            driver.Close();
         }
     }
 }
