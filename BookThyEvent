@@ -60,11 +60,10 @@ namespace Selenium_Demo1
             IAlert alert = driver.SwitchTo().Alert();
             string msg = alert.Text;
 
-            ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
-            Screenshot screenshot = screenshotDriver.GetScreenshot();
-            string filePath = "C:\\Users";
-            screenshot.SaveAsFile(filePath, ScreenshotImageFormat.Png);
             alert.Accept();
+            Screenshot srcfile = ((ITakesScreenshot)driver).GetScreenshot();
+            string screenShotPath= "D:\\srima.png";
+            srcfile.SaveAsFile(screenShotPath);
             driver.SwitchTo().Window(currentWindow);
             driver.FindElement(By.Id("offersLink")).Click();
             IWebElement dropDownElement = driver.FindElement(By.Id("offersDropdown"));
