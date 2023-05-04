@@ -60,6 +60,59 @@ namespace DemoBlaze.StepDefinitions
 
         }
 
+ public void GivenUserIsLoggedin()
+        {
+            string currentUrl = driver.Url;
+            Assert.That(currentUrl, Is.EqualTo("https://www.demoblaze.com/index.html"));
+                
+                
+        }
 
+          [When(@"i clicked on contacts and write lily@gmail\.com,(.*),hello")]
+          public void WhenIClickedOnContactsAndWriteLilyGmail_ComHello(Table table)
+          {
+              foreach(var row in table.Rows)
+              {
+                  var email = row["email"];
+                  var contact = row["contact"];
+                  var message = row["message"];
+                  driver.FindElement(By.XPath("/html/body/nav/div[1]/ul/li[2]/a")).Click();
+                  driver.FindElement(By.Id("recipient-email")).SendKeys(email);
+                  driver.FindElement(By.Id("recipient-name")).SendKeys(contact);
+                  driver.FindElement(By.Id("message-text")).SendKeys(message);
+                  driver.FindElement(By.XPath("/html/body/div[1]/div/div/div[3]/button[2]")).Click();
+                  driver.SwitchTo().Alert().Accept();
+
+              }
+          }
+       
+
+       /* [When(@"i clicked on contacts and write email,contact,message")]
+        public void WhenIClickedOnContactsAndWriteEmailContactMessage(Table table)
+        {
+            foreach (var row in table.Rows)
+            {
+                var email = row["email"];
+                var contact = row["contact"];
+                var message = row["message"];
+                driver.FindElement(By.XPath("/html/body/nav/div[1]/ul/li[2]/a")).Click();
+                driver.FindElement(By.Id("recipient-email")).SendKeys(email);
+                driver.FindElement(By.Id("recipient-name")).SendKeys(contact);
+                driver.FindElement(By.Id("message-text")).SendKeys(message);
+                driver.FindElement(By.XPath("/html/body/div[1]/div/div/div[3]/button[2]")).Click();
+                driver.SwitchTo().Alert().Accept();
+
+            }
+        }*/
+
+
+        [Then(@"i successfully sent the messages")]
+        public void ThenISuccessfullySentTheMessages()
+        {
+            string currentUrl = driver.Url;
+            Assert.That(currentUrl, Is.EqualTo("https://www.demoblaze.com/index.html"));
+
+        }
+        
     }
 }
