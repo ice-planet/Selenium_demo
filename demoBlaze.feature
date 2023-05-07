@@ -13,11 +13,20 @@ Scenario: Signup for a new user using any unique username and password
 
 Scenario Outline: Sending messages to multiple users
 Given user is loggedin
-When  i clicked on contacts and write <email>,<contact>,<message>
-Then i successfully sent the messages
+When  i clicked on contacts  
+Then i enter "<email>" as email,"<contact>" as contact and "<message>" as message
+And click on send
 
 Examples: 
 | email          | contact    | message  |
-| lily@gmail.com | 9578402908 | hello    |
-| john@gmail.com | 9888777666 | good day |
-| eva@gmail.com  | 8333444555 | good bye |
+| lily@gmail.com | liy        | hello    |
+| john@gmail.com | john       | good day |
+| eva@gmail.com  | eva        | good bye |
+
+
+Scenario: To verify if a item is added successfully
+Given user is loggedin in the website
+When i click on laptop section
+And click on Macbook Air to add it to the cart
+Then I navigate to the cart
+And I verify whether the Macbook Air is present or not
